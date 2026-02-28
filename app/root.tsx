@@ -7,15 +7,15 @@ import {
   ScrollRestoration,
 } from "react-router";
 
-import type { Route } from "../extra/root";
+import type { Route } from "../src/extra/root";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
+  { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous"
+  },
   {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
+    rel: "icon", href: "./app/public/MovieIcon.png", type: "image/png"
   },
   {
     rel: "stylesheet",

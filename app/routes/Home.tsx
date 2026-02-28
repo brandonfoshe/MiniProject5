@@ -1,47 +1,55 @@
-import { useEffect, useState } from "react";
-import "./App.css";
-import myImage from "./public/MoiveIcon.png"
+// app/routes/home.tsx
+import { useState, useEffect } from "react";
 
-const App = () => {
+interface Movie {
+  title?: string;
+  director?: string;
+  genre?: string;
+  releasing_year?: string | number;
+  imdb_rating?: string | number;
+  runtime?: string;
+  age_group?: string;
+  language?: string;
+  budget?: string;
+  short_description?: string;
+  [key: string]: string | number | undefined;
+}
+
+export function meta() {
+  return [
+    { title: "Mango Movie Wishlister" },
+    { name: "description", content: "Your final destination for movie wishlisting" },
+  ];
+}
+
+export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState([]);
-  const [error, setError] = useState(null);
-  //Filter 1 is the Category
-  const [filter1,setFilter1] = useState("title");
-  //Search
-  const [searchQuery,setSearchQuery] = useState(" ")
+  const [data, setData] = useState<Movie[]>([]);
+  const [error, setError] = useState<boolean>(false);
+  const [filter1, setFilter1] = useState("title");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [wishlist, setWishlist] = useState<Movie[]>([]);
 
-  const [wishlist, setWishlist] = useState([]);
+  const filteredData = data
+    .filter((movie) =>
+      movie[filter1]?.toString().toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .sort((a, b) => {
+      const valA = a[filter1]?.toString().toLowerCase() ?? "";
+      const valB = b[filter1]?.toString().toLowerCase() ?? "";
+      return valA.localeCompare(valB);
+    });
 
-  //Filtered Data
-      const filteredData = data.filter(movie =>
-    movie[filter1]?.toString().toLowerCase().includes(searchQuery.toLowerCase())
-      )
-      // // Source - https://stackoverflow.com/a/35092754
-      // Sort structure from ^
-
-  .sort((a, b) => {
-    const valA = a[filter1]?.toString().toLowerCase() ?? '';
-    const valB = b[filter1]?.toString().toLowerCase() ?? '';
-    return valA.localeCompare(valB);
-  }
-  );
-
-  //Fetch Function
   async function fetchData() {
     try {
-      const response = await fetch(
-        "./public/movie.json",
-      );
+      const response = await fetch("./app/public/movie.json");
       if (!response.ok) throw new Error("failed to fetch");
       const myData = await response.json();
       setData(myData);
-      setError(null);
-      console.log(data);
+      setError(false);
     } catch (err) {
-      setError(err);
-      console.log(err);
-      setData(null);
+      setError(true);
+      setData([]);
     } finally {
       setIsLoading(false);
     }
@@ -51,7 +59,7 @@ const App = () => {
     fetchData();
   }, []);
 
-   const toggleWishlist = (movie) => {
+  const toggleWishlist = (movie: Movie) => {
     setWishlist((prev) =>
       prev.some((m) => m.title === movie.title)
         ? prev.filter((m) => m.title !== movie.title)
@@ -59,12 +67,13 @@ const App = () => {
     );
   };
 
-  const isWishlisted = (movie) => wishlist.some((m) => m.title === movie.title);
+  const isWishlisted = (movie: Movie) => wishlist.some((m) => m.title === movie.title);
 
-  // Downlaods as TXT file
   const downloadWishlist = () => {
-    const text = wishlist.map((movie) =>
-`Movie Name: ${movie.title || "N/A"}
+    const text = wishlist
+      .map(
+        (movie) =>
+          `Movie Name: ${movie.title || "N/A"}
 Director: ${movie.director || "N/A"}
 Genre: ${movie.genre || "N/A"}
 Release Year: ${movie.releasing_year || "N/A"}
@@ -74,7 +83,8 @@ Age Group: ${movie.age_group || "N/A"}
 Language: ${movie.language || "N/A"}
 Budget: ${movie.budget || "N/A"}
 Short Description: ${movie.short_description || "N/A"}`
-    ).join("\n\n---\n\n");
+      )
+      .join("\n\n---\n\n");
 
     const blob = new Blob([text], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
@@ -90,7 +100,7 @@ Short Description: ${movie.short_description || "N/A"}`
 
       <div className="navbar bg-base-100 shadow-md px-6 sticky top-0 z-50">
         <div className="flex-1 flex items-center gap-2">
-          <img src={myImage} className="w-8 h-8 object-contain" alt="Movie icon" />
+          <img src="./app/public/MovieIcon.png" className="w-8 h-8 object-contain"/>
           <span className="text-xl font-bold tracking-tight">Movie Wishlister</span>
         </div>
 
@@ -158,6 +168,7 @@ Short Description: ${movie.short_description || "N/A"}`
           </div>
         )}
 
+        {/* Error */}
         {error && (
           <div className="text-center py-20 text-base-content/50">
             <span>Failed to load movies. Please try again.</span>
@@ -174,7 +185,9 @@ Short Description: ${movie.short_description || "N/A"}`
 
         {!isLoading && !error && filteredData.length > 0 && (
           <>
-            <p className="text-sm text-base-content/50 mb-4">{filteredData.length} movie{filteredData.length !== 1 ? "s" : ""} found</p>
+            <p className="text-sm text-base-content/50 mb-4">
+              {filteredData.length} movie{filteredData.length !== 1 ? "s" : ""} found
+            </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {filteredData.map((movie, index) => (
                 <div key={index} className="card bg-base-100 shadow-sm hover:shadow-md transition-shadow">
@@ -193,9 +206,7 @@ Short Description: ${movie.short_description || "N/A"}`
                     </div>
 
                     {movie.short_description && (
-                      <p className="text-sm mt-4">
-                        {movie.short_description}
-                      </p>
+                      <p className="text-sm mt-4">{movie.short_description}</p>
                     )}
 
                     <div className="card-actions justify-end mt-3">
@@ -215,6 +226,4 @@ Short Description: ${movie.short_description || "N/A"}`
       </div>
     </div>
   );
-};
-
-export default App;
+}
