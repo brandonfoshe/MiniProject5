@@ -1,5 +1,6 @@
 // app/routes/home.tsx
 import { useState, useEffect } from "react";
+import { Link } from "react-router";
 
 interface Movie {
   title?: string;
@@ -101,7 +102,7 @@ Short Description: ${movie.short_description || "N/A"}`
       <div className="navbar bg-base-100 shadow-md px-6 sticky top-0 z-50">
         <div className="flex-1 flex items-center gap-2">
           <img src="./app/public/MovieIcon.png" className="w-8 h-8 object-contain"/>
-          <span className="text-xl font-bold tracking-tight">Movie Wishlister</span>
+          <span className="text-xl font-bold tracking-tight">Mango Movie Wishlister</span>
         </div>
 
         <div className="flex-none flex items-center gap-2">
@@ -212,10 +213,13 @@ Short Description: ${movie.short_description || "N/A"}`
                     <div className="card-actions justify-end mt-3">
                       <button
                         onClick={() => toggleWishlist(movie)}
-                        className={`btn btn-sm ${isWishlisted(movie) ? "btn-primary" : "btn-outline"}`}
+                        className={`btn btn-sm ${isWishlisted(movie) ? "btn-outline" : "btn-outline"}`}
                       >
                         {isWishlisted(movie) ? "Remove from Wishlist" : "Add to Wishlist"}
                       </button>
+                      <Link to= {`/movie/${encodeURIComponent(movie.title || "")}`} className="btn btn-sm btn-primary">
+                        View Details
+                      </Link>
                     </div>
                   </div>
                 </div>

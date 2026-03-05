@@ -5,4 +5,5 @@ export default [
   route("about", "routes/About.tsx"),
   route("wishlist", "routes/Wishlist.tsx"),
   route("login", "routes/Login.tsx"),
+  route("movie/:id", "routes/Movie.tsx"),
 ] satisfies RouteConfig;
