@@ -5,21 +5,12 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-<<<<<<< HEAD
-  type LinksFunction,
-} from "react-router";
-
-import "./app.css";
-
-export const links: LinksFunction = () => [
-=======
 } from "react-router";
 
 import type { Route } from "../src/extra/root";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
->>>>>>> main
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous"
   },
@@ -50,13 +41,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-<<<<<<< HEAD
-export default function App() {
-  return <Outlet />;
-}
-
-export function ErrorBoundary({ error }: { error: unknown }) {
-=======
 import { WishlistProvider } from "./componenets/Wishlist";
 
 export default function App() {
@@ -68,7 +52,6 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
->>>>>>> main
   let message = "Oops!";
   let details = "An unexpected error occurred.";
   let stack: string | undefined;

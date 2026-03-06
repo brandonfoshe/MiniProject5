@@ -1,6 +1,7 @@
 // app/routes/Movie.tsx
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router";
+import Navbar from "../componenets/Navbar";
 
 interface Movie {
   title?: string;
@@ -75,16 +76,7 @@ export default function Movie() {
   return (
     <div className="min-h-screen bg-base-200">
 
-      {/* Navbar */}
-      <div className="navbar bg-base-100 shadow-md px-6 sticky top-0 z-50">
-        <div className="flex-1 flex items-center gap-2">
-          <img src="../app/public/MovieIcon.png" className="w-8 h-8 object-contain" alt="Movie icon" />
-          <span className="text-xl font-bold tracking-tight">Movie Wishlister</span>
-        </div>
-        <div className="flex-none">
-          <Link to="/" className="btn btn-ghost btn-sm">← Back to Movies</Link>
-        </div>
-      </div>
+    <Navbar/>
 
       {/* Movie Details */}
       <div className="max-w-2xl mx-auto px-4 py-12">

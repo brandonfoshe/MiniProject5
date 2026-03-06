@@ -1,6 +1,11 @@
 // app/routes/home.tsx
 import { useState, useEffect } from "react";
-import { Link } from "react-router";
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getFirestore } from "firebase/firestore";
+import AuthButton from "../componenets/Login";
+import Navbar from "../componenets/Navbar"
+import MovieCard from "../componenets/MovieCard";
+import { useWishlist } from "../componenets/Wishlist";
 
 interface Movie {
   title?: string;
@@ -29,7 +34,10 @@ export default function Home() {
   const [error, setError] = useState<boolean>(false);
   const [filter1, setFilter1] = useState("title");
   const [searchQuery, setSearchQuery] = useState("");
-  const [wishlist, setWishlist] = useState<Movie[]>([]);
+
+  const { wishlist, toggleWishlist } = useWishlist();
+
+   const isWishlisted = (movie: Movie) => wishlist.some((m) => m.title === movie.title);
 
   const filteredData = data
     .filter((movie) =>
@@ -60,67 +68,13 @@ export default function Home() {
     fetchData();
   }, []);
 
-  const toggleWishlist = (movie: Movie) => {
-    setWishlist((prev) =>
-      prev.some((m) => m.title === movie.title)
-        ? prev.filter((m) => m.title !== movie.title)
-        : [...prev, movie]
-    );
-  };
 
-  const isWishlisted = (movie: Movie) => wishlist.some((m) => m.title === movie.title);
-
-  const downloadWishlist = () => {
-    const text = wishlist
-      .map(
-        (movie) =>
-          `Movie Name: ${movie.title || "N/A"}
-Director: ${movie.director || "N/A"}
-Genre: ${movie.genre || "N/A"}
-Release Year: ${movie.releasing_year || "N/A"}
-IMDB Rating: ${movie.imdb_rating || "N/A"}
-Runtime: ${movie.runtime || "N/A"}
-Age Group: ${movie.age_group || "N/A"}
-Language: ${movie.language || "N/A"}
-Budget: ${movie.budget || "N/A"}
-Short Description: ${movie.short_description || "N/A"}`
-      )
-      .join("\n\n---\n\n");
-
-    const blob = new Blob([text], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "wishlist.txt";
-    a.click();
-    URL.revokeObjectURL(url);
-  };
 
   return (
     <div className="min-h-screen bg-base-200">
 
       <div className="navbar bg-base-100 shadow-md px-6 sticky top-0 z-50">
-        <div className="flex-1 flex items-center gap-2">
-          <img src="./app/public/MovieIcon.png" className="w-8 h-8 object-contain"/>
-          <span className="text-xl font-bold tracking-tight">Mango Movie Wishlister</span>
-        </div>
-
-        <div className="flex-none flex items-center gap-2">
-          <button
-            onClick={downloadWishlist}
-            disabled={wishlist.length === 0}
-            className="btn btn-ghost btn-sm"
-            title="Download wishlist"
-          >
-            Download
-          </button>
-          <div className="indicator">
-            <span className="indicator-item badge badge-sm badge-primary">
-              {wishlist.length}
-            </span>
-            <button className="btn btn-ghost btn-sm gap-1">Wishlist</button>
-          </div>
-        </div>
+        <Navbar />
       </div>
 
       <div className="max-w-5xl mx-auto px-4 py-8">
@@ -189,42 +143,16 @@ Short Description: ${movie.short_description || "N/A"}`
             <p className="text-sm text-base-content/50 mb-4">
               {filteredData.length} movie{filteredData.length !== 1 ? "s" : ""} found
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredData.map((movie, index) => (
-                <div key={index} className="card bg-base-100 shadow-sm hover:shadow-md transition-shadow">
-                  <div className="card-body p-4">
-                    <h2 className="card-title text-xl leading-snug badge badge-neutral">{movie.title}</h2>
-
-                    <div className="flex flex-col items-center gap-2 mt-2">
-                      {movie.director && <span className="badge-soft">Director: {movie.director}</span>}
-                      {movie.genre && <span className="badge-soft">Genre: {movie.genre}</span>}
-                      {movie.releasing_year && <span className="badge-soft">Release Year: {movie.releasing_year}</span>}
-                      {movie.imdb_rating && <span className="badge-soft">IMDB Rating: {movie.imdb_rating}</span>}
-                      {movie.runtime && <span className="badge-soft">Runtime: {movie.runtime}</span>}
-                      {movie.age_group && <span className="badge-soft">Age group: {movie.age_group}</span>}
-                      {movie.language && <span className="badge-soft">Language: {movie.language}</span>}
-                      {movie.budget && <span className="badge-soft">Budget: {movie.budget}</span>}
-                    </div>
-
-                    {movie.short_description && (
-                      <p className="text-sm mt-4">{movie.short_description}</p>
-                    )}
-
-                    <div className="card-actions justify-end mt-3">
-                      <button
-                        onClick={() => toggleWishlist(movie)}
-                        className={`btn btn-sm ${isWishlisted(movie) ? "btn-outline" : "btn-outline"}`}
-                      >
-                        {isWishlisted(movie) ? "Remove from Wishlist" : "Add to Wishlist"}
-                      </button>
-                      <Link to= {`/movie/${encodeURIComponent(movie.title || "")}`} className="btn btn-sm btn-primary">
-                        View Details
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+           {filteredData.map((movie, index) => (
+            <MovieCard
+              key={index}
+              movie={movie}
+              isWishlisted={isWishlisted(movie)}
+              onToggleWishlist={toggleWishlist}
+              />
+            ))}
+        </div>
           </>
         )}
       </div>
