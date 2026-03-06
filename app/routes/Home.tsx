@@ -7,6 +7,8 @@ import Navbar from "../components/Navbar"
 import MovieCard from "../components/MovieCard";
 import { useWishlist } from "../components/Wishlist";
 
+import movieData from "../public/movie.json";
+
 interface Movie {
   title?: string;
   director?: string;
@@ -51,10 +53,7 @@ export default function Home() {
 
   async function fetchData() {
     try {
-      const response = await fetch("./app/public/movie.json");
-      if (!response.ok) throw new Error("failed to fetch");
-      const myData = await response.json();
-      setData(myData);
+      setData(movieData);
       setError(false);
     } catch (err) {
       setError(true);
