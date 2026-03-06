@@ -30,8 +30,14 @@ export default function Navbar() {
           Home
         </button>
         <button
-          onClick={downloadWishlist}
-          disabled={wishlist.length === 0 || !user}
+          onClick={() => {
+            if (!user){
+              navigate('/login');
+            } else{
+              downloadWishlist();
+            }
+          }}
+          disabled={wishlist.length === 0}
           className="btn btn-ghost btn-sm"
           title={!user ? "Login to download" : "Download wishlist"}
         >
