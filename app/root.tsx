@@ -7,21 +7,24 @@ import {
   ScrollRestoration,
 } from "react-router";
 
-import type { Route } from "../src/extra/root";
 import "./app.css";
+import logo from "./public/MovieIcon.png";
+import { WishlistProvider } from "./components/Wishlist";
 
-export const links: Route.LinksFunction = () => [
+export function links() {
+  return [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous"
   },
   {
-    rel: "icon", href: "./app/public/MovieIcon.png", type: "image/png"
+    rel: "icon", href: logo, type: "image/png"
   },
   {
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
-];
+  ];
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -41,8 +44,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-import { WishlistProvider } from "./components/Wishlist";
-
 export default function App() {
   return( 
     <WishlistProvider>
@@ -51,7 +52,7 @@ export default function App() {
     );
 }
 
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+export function ErrorBoundary({ error }: { error: unknown }) {
   let message = "Oops!";
   let details = "An unexpected error occurred.";
   let stack: string | undefined;
