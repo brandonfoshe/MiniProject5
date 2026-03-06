@@ -1,4 +1,4 @@
-import AuthButton from "../componenets/Login";
+import AuthButton from "./Login";
 import { useWishlist } from "./Wishlist";
 import { useState, useEffect } from "react";
 import { auth } from "../auth";
@@ -32,8 +32,14 @@ export default function Navbar() {
           Home
         </button>
         <button
-          onClick={downloadWishlist}
-          disabled={wishlist.length === 0 || !user}
+          onClick={() => {
+            if (!user){
+              navigate('/login');
+            } else{
+              downloadWishlist();
+            }
+          }}
+          disabled={wishlist.length === 0}
           className="btn btn-ghost btn-sm"
           title={!user ? "Login to download" : "Download wishlist"}
         >

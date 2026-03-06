@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import AuthButton from '~/componenets/Login';
-import Navbar from '../componenets/Navbar';
+import AuthButton from '~/components/Login';
+import Navbar from '../components/Navbar';
 import {loginUser} from "../auth.js";
 export default function Login(){
 

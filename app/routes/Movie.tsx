@@ -1,7 +1,7 @@
 // app/routes/Movie.tsx
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router";
-import Navbar from "../componenets/Navbar";
+import Navbar from "../components/Navbar";
 
 interface Movie {
   title?: string;

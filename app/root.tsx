@@ -41,7 +41,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-import { WishlistProvider } from "./componenets/Wishlist";
+import { WishlistProvider } from "./components/Wishlist";
 
 export default function App() {
   return( 

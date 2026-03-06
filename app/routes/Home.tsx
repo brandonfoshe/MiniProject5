@@ -2,10 +2,10 @@
 import { useState, useEffect } from "react";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore } from "firebase/firestore";
-import AuthButton from "../componenets/Login";
-import Navbar from "../componenets/Navbar"
-import MovieCard from "../componenets/MovieCard";
-import { useWishlist } from "../componenets/Wishlist";
+import AuthButton from "../components/Login";
+import Navbar from "../components/Navbar"
+import MovieCard from "../components/MovieCard";
+import { useWishlist } from "../components/Wishlist";
 
 interface Movie {
   title?: string;
