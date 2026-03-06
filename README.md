@@ -1,10 +1,6 @@
 # Mini Project 5
 ### Brandon Foshe and Zane Jones
 ### Live link: to come
-<<<<<<< HEAD
-=======
-
->>>>>>> 0eafded2198e8cf374f3578e4aaa22583fffe226
 ---
 ### This is a movie wishlister site using a Single Page Application
 #### In this SPA we have:
@@ -18,9 +14,6 @@
 #### To navigate to a movie page, find the movie and click on "View Details"
 #### Or use this format: /movie/Movie%20Title
 
-<<<<<<< HEAD
-##### 
-=======
 ---
 ### Code organization:
 #### In the components folder, we have 4 components: Login, MovieCard, NavBar, and Wishlist
@@ -31,8 +24,4 @@
 ---
 ### User authentication:
 #### Users are able to sign up, log in, and log out of their account through the login page
-#### Users have two ways to sign up: One with email and password, and one with socail media
-#### In order to download your list of wishlisted movies, you must be logged in
-#### Basic users have normal access, but authenticated users get special persmissions
-#### Authenticated users are visually distinct from basic users
->>>>>>> 0eafded2198e8cf374f3578e4aaa22583fffe226
+#### In order to view / download your list of wishlisted movies, you must be logged in
