@@ -1,6 +1,6 @@
 # Mini Project 5
 ### Brandon Foshe and Zane Jones
-### Live link: to come
+### Live link: https://moviewishlister.vercel.app/
 ---
 ### This is a movie wishlister site using a Single Page Application
 #### In this SPA we have:
