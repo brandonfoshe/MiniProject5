@@ -41,7 +41,7 @@ export default function Navbar() {
           <span className="indicator-item badge badge-sm badge-primary">
             {wishlist.length}
           </span>
-          <button className="btn btn-ghost btn-sm gap-1">Wishlist</button>
+          <button onClick={() => navigate('/wishlist')} className="btn btn-ghost btn-sm gap-1">Wishlist</button>
         </div>
         <AuthButton />
       </div>
