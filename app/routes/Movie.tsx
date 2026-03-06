@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router";
 import Navbar from "../components/Navbar";
+import movieData from "../public/movie.json";
 
 interface Movie {
   title?: string;
@@ -33,27 +34,21 @@ export default function Movie() {
   }, [movie]);
 
   useEffect(() => {
-    async function fetchMovie() {
-      try {
-        const response = await fetch("../app/public/movie.json");
-        if (!response.ok) throw new Error("Failed to fetch");
-        const data: Movie[] = await response.json();
+    try {
+      const data: Movie[] = movieData;
 
-        const found = data.find(
-          (m) => m.title?.toLowerCase() === id?.toLowerCase()
-        );
+      const found = data.find(
+        (m) => m.title?.toLowerCase() === id?.toLowerCase()
+      );
 
-        if (found) {
-          setMovie(found);
-        } else {
-          setNotFound(true);
-        }
-      } catch (err) {
+      if (found) {
+        setMovie(found);
+      } else {
         setNotFound(true);
       }
+    } catch (err) {
+      setNotFound(true);
     }
-
-    fetchMovie();
   }, [id]);
 
   if (notFound) {
