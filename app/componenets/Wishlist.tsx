@@ -1,11 +1,31 @@
 import { createContext, useContext, useState } from "react";
+import type { ReactNode } from "react";
 
-const WishlistContext = createContext(null);
+interface Movie {
+  title?: string;
+  director?: string;
+  genre?: string;
+  releasing_year?: string | number;
+  imdb_rating?: string | number;
+  runtime?: string;
+  age_group?: string;
+  language?: string;
+  budget?: string;
+  short_description?: string;
+}
 
-export function WishlistProvider({ children }) {
-  const [wishlist, setWishlist] = useState([]);
+interface WishlistContextType {
+  wishlist: Movie[];
+  toggleWishlist: (movie: Movie) => void;
+  downloadWishlist: () => void;
+}
 
-  const toggleWishlist = (movie) => {
+const WishlistContext = createContext<WishlistContextType | null>(null);
+
+export function WishlistProvider({ children }: { children: ReactNode }) {
+  const [wishlist, setWishlist] = useState<Movie[]>([]);
+
+  const toggleWishlist = (movie: Movie) => {
     setWishlist((prev) =>
       prev.some((m) => m.title === movie.title)
         ? prev.filter((m) => m.title !== movie.title)
@@ -42,6 +62,8 @@ Short Description: ${movie.short_description || "N/A"}`
   );
 }
 
-export function useWishlist() {
-  return useContext(WishlistContext);
+export function useWishlist(): WishlistContextType {
+  const context = useContext(WishlistContext);
+  if (!context) throw new Error("useWishlist must be used within a WishlistProvider");
+  return context;
 }

@@ -5,6 +5,8 @@ import { auth } from "../auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router";
 
+import movieIcon from "../public/MovieIcon.png";
+
 export default function Navbar() {
   const { wishlist, downloadWishlist } = useWishlist(); 
    const [user, setUser] = useState(null);
@@ -20,7 +22,7 @@ export default function Navbar() {
   return (
     <div className="navbar bg-base-100 shadow-md px-6 sticky top-0 z-50">
       <div className="flex-1 flex items-center gap-2">
-        <img src="./app/public/MovieIcon.png" className="w-8 h-8 object-contain"/>
+        <img src={movieIcon} className="w-8 h-8 object-contain"/>
         <span className="text-xl font-bold tracking-tight">Movie Wishlister</span>
       </div>
       
