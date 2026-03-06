@@ -13,6 +13,7 @@
 |Movie pages - view more information about movies |/movie/(movie name) |
 #### To navigate to a movie page, find the movie and click on "View Details"
 #### Or use this format: /movie/Movie%20Title
+<img width="1840" height="1320" alt="UML" src="https://github.com/user-attachments/assets/c959df42-42ba-4323-bedc-5187a0d70ce0" />
 
 ---
 ### Code organization:
