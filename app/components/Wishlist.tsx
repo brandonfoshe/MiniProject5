@@ -66,8 +66,12 @@ export function useWishlist(): WishlistContextType {
   const context = useContext(WishlistContext);
   if (!context) throw new Error("useWishlist must be used within a WishlistProvider");
   return context;
+<<<<<<< HEAD:app/components/Wishlist.tsx
 <<<<<<< HEAD
 }
 =======
 }
 >>>>>>> main
+=======
+}
+>>>>>>> 0eafded2198e8cf374f3578e4aaa22583fffe226:app/componenets/Wishlist.tsx
